@@ -1,8 +1,11 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'package:art_tech/core/common_functions.dart';
-import 'package:art_tech/data/controller/authentication/authentication_controller.dart';
+import 'package:art_tech/presentation/screens/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/app_status_dart';
+import '../../../core/common_widgets.dart';
 import '../../../core/constants.dart';
 import '../../widgets/textFiled_widget.dart';
 
@@ -65,7 +68,7 @@ class _SignInPageState extends State<SignInPage> {
                           validatorMessage: 'Please enter your email',
                           prefixIcon: Icons.email_outlined,
                         ),
-                        const SizedBox(height: 20),
+                        kSizedBox20,
                         TextFieldWidget(
                           controller: userPassword,
                           hintText: 'Password',
@@ -74,34 +77,64 @@ class _SignInPageState extends State<SignInPage> {
                           isPassword: true,
                         ),
                         const SizedBox(height: 80),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              //
-                              // loginUser();
-                              Navigator.pushNamed(context, '/homePage');
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors().kButtonYellowColor,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18),
+                        BlocListener<LogInBloc, LogInState>(
+                            listener: (context, state) {
+                              switch (state.loginState) {
+                                case AppStatus.loading:
+                                  showLinearLoading(context, true, false);
+
+                                  break;
+                                case AppStatus.success:
+                                  Navigator.pop(context);
+
+                                  showSnackBar(
+                                      context,
+                                      'Logged In Successfully',
+                                      AppColors().kSnackBarSuccessColor);
+                                  //Navigate to home screen
+                                  Navigator.pushNamed(context, '/homePage');
+
+                                  break;
+                                case AppStatus.failure:
+                                  Navigator.pop(context);
+                                  showSnackBar(
+                                      context,
+                                      'Login Failed \n Please try again',
+                                      AppColors().kSnackBarErrorColor);
+
+                                  break;
+                                default:
+                              }
+                            },
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  //
+                                  context.read<LogInBloc>().add(OnLogInEvent(
+                                      userEmail.text, userPassword.text));
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      AppColors().kButtonYellowColor,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18),
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(
+                                      18, 18, 18, 15)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text('Sign In',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          letterSpacing: 1,
+                                          color: Colors.white)),
+                                ],
                               ),
-                              padding:
-                                  const EdgeInsets.fromLTRB(18, 18, 18, 15)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text('Sign In',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1,
-                                      color: Colors.white)),
-                            ],
-                          ),
-                        ),
+                            )),
                       ],
                     ),
                   ),

@@ -1,14 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:art_tech/core/common_functions.dart';
-import 'package:art_tech/presentation/screens/login/bloc/login_bloc.dart';
 import 'package:art_tech/presentation/screens/registration/bloc/registration_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../core/app_status_dart';
+import '../../../core/app_status.dart';
 import '../../../core/common_widgets.dart';
-import '../../../data/controller/authentication/authentication_controller.dart';
 import '../../../core/constants.dart';
 import '../../widgets/textFiled_widget.dart';
 
@@ -36,6 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
 // Password
 // Submit
   String _selectedGenderOption = '';
+  ValueNotifier selectedGenderNotifier = ValueNotifier('');
 
   @override
   void initState() {
@@ -119,34 +117,43 @@ class _SignUpPageState extends State<SignUpPage> {
                                       ),
                                     ],
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      const Text('M'),
-                                      Radio(
-                                        value: 'Male',
-                                        groupValue: _selectedGenderOption,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedGenderOption =
-                                                value.toString();
-                                          });
-                                        },
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text('F'),
-                                      Radio(
-                                        value: 'Female',
-                                        groupValue: _selectedGenderOption,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedGenderOption =
-                                                value.toString();
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                                  ValueListenableBuilder(
+                                      valueListenable: selectedGenderNotifier,
+                                      builder: (context, selectedGender, _) {
+                                        return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            const Text('M'),
+                                            Radio(
+                                              value: 'Male',
+                                              groupValue: selectedGender,
+                                              onChanged: (value) {
+                                                // setState(() {
+                                                selectedGenderNotifier.value =
+                                                    value.toString();
+                                                // });
+                                                selectedGenderNotifier
+                                                    .notifyListeners();
+                                              },
+                                            ),
+                                            const SizedBox(width: 10),
+                                            const Text('F'),
+                                            Radio(
+                                              value: 'Female',
+                                              groupValue: selectedGender,
+                                              onChanged: (value) {
+                                                //setState(() {
+                                                selectedGenderNotifier.value =
+                                                    value.toString();
+                                                selectedGenderNotifier
+                                                    .notifyListeners();
+                                                // });
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      }),
                                 ],
                               ),
                             ),
@@ -184,9 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               case AppStatus.success:
                                 Navigator.pop(context);
 
-                                showSnackBar(
-                                    context,
-                                    'Registered In Successfully',
+                                showSnackBar(context, 'Registered Successfully',
                                     AppColors().kSnackBarSuccessColor);
                                 //Navigate to home screen
                                 Navigator.pushNamed(context, '/loginPage');
@@ -206,11 +211,15 @@ class _SignUpPageState extends State<SignUpPage> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                if (_selectedGenderOption.isNotEmpty) {
+                                if (selectedGenderNotifier.value.isNotEmpty) {
                                   //
-                                  context
-                                      .read<RegistrationBloc>()
-                                      .add(OnRegistrationEvent());
+                                  context.read<RegistrationBloc>().add(
+                                      OnRegistrationEvent(
+                                          firstName: userFirstName.text,
+                                          lastName: userLastName.text,
+                                          gender: selectedGenderNotifier.value,
+                                          email: userEmail.text,
+                                          password: userPassword.text));
                                 } else {
                                   showSnackBar(
                                       context,

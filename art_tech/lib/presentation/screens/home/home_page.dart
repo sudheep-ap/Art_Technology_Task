@@ -1,4 +1,5 @@
 import 'package:art_tech/core/constants.dart';
+import 'package:art_tech/data/controller/authentication/authentication_controller.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,7 +10,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String userData = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -18,15 +18,22 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = User().getUserData(userDataInstance);
     return Scaffold(
-      backgroundColor: AppColors().kButtonYellowColor,
+      backgroundColor: AppColors().klightGreyColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Hi $userData',
+              'Hi ${data["firstName"]}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontSize: 32, letterSpacing: 2, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '${data["gender"]}',
               textAlign: TextAlign.center,
               style: const TextStyle(
                   fontSize: 32, letterSpacing: 2, fontWeight: FontWeight.bold),

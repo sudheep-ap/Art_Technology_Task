@@ -4,7 +4,7 @@ import 'package:art_tech/core/common_functions.dart';
 import 'package:art_tech/presentation/screens/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/app_status_dart';
+import '../../../core/app_status.dart';
 import '../../../core/common_widgets.dart';
 import '../../../core/constants.dart';
 import '../../widgets/textFiled_widget.dart';

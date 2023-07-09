@@ -3,8 +3,7 @@ import 'package:art_tech/presentation/screens/registration/bloc/registration_blo
 import 'package:art_tech/presentation/screens/registration/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'core/router.dart';
+import 'data/core/router.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -17,9 +16,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LogInBloc>(lazy: false, create: (context) => LogInBloc()),
-        BlocProvider<RegistrationBloc>(
-            lazy: false, create: (context) => RegistrationBloc()),
+        BlocProvider<LogInBloc>(create: (context) => LogInBloc()),
+        BlocProvider<RegistrationBloc>(create: (context) => RegistrationBloc()),
       ],
       //create: (context) => SubjectBloc(),
       child: MaterialApp(

@@ -1,7 +1,7 @@
-import 'package:art_tech/data/controller/authentication/authentication_controller.dart';
+import 'package:art_tech/domian/models/authentication_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/app_status.dart';
+import '../../../../data/core/app_status.dart';
 part 'registration_event.dart';
 part 'registration_state.dart';
 

@@ -4,6 +4,9 @@ class AppColors {
   // Main Colors
   Color klightGreyColor = const Color.fromARGB(255, 238, 238, 238);
   Color kMainBlackColor = Colors.black;
+
+  Color kMainYellowColor = const Color(0xFFFDB913);
+
   // Button Colors
 
   Color kButtonYellowColor = const Color(0xFFFDB913);
@@ -12,6 +15,7 @@ class AppColors {
 
   Color kTextBlackColor = Colors.black;
   Color kTextGreyColor = const Color.fromARGB(255, 107, 104, 104);
+  Color kTextWhiteColor = const Color.fromARGB(255, 248, 245, 245);
 
   // Snack Bar Colors
 

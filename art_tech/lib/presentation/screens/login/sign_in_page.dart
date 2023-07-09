@@ -1,12 +1,12 @@
 // ignore_for_file: unrelated_type_equality_checks
 
-import 'package:art_tech/core/common_functions.dart';
+import 'package:art_tech/data/core/common_functions.dart';
 import 'package:art_tech/presentation/screens/login/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/app_status.dart';
-import '../../../core/common_widgets.dart';
-import '../../../core/constants.dart';
+import '../../../data/core/app_status.dart';
+import '../../../data/core/common_widgets.dart';
+import '../../../data/core/constants.dart';
 import '../../widgets/textFiled_widget.dart';
 
 class SignInPage extends StatefulWidget {

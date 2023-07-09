@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/app_status.dart';
-import '../../../../data/controller/authentication/authentication_controller.dart';
+import '../../../../data/core/app_status.dart';
+import '../../../../domian/models/authentication_model.dart';
 part 'login_event.dart';
 part 'login_state.dart';
 
